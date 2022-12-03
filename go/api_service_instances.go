@@ -10,6 +10,8 @@
 package swagger
 
 import (
+	"encoding/json"
+	"log"
 	"net/http"
 )
 
@@ -29,8 +31,18 @@ func ServiceInstanceLastOperationGetUsingGET(w http.ResponseWriter, r *http.Requ
 }
 
 func ServiceInstanceProvisionUsingPUT(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	resp := make(map[string]string)
+	resp["dashboard_url"] = "http://www.ibm.com"
+	resp["description"] = "Service is created"
+	resp["operation"] = "provision45"
+	jsonResp, err := json.Marshal(resp)
+	if err != nil {
+		log.Fatalf("Error happened in JSON marshal. Err: %s", err)
+	}
+	w.Write(jsonResp)
+
 }
 
 func ServiceInstanceUpdateUsingPATCH(w http.ResponseWriter, r *http.Request) {
