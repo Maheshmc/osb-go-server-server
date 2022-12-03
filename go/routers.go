@@ -119,6 +119,13 @@ var routes = Routes{
 	},
 
 	Route{
+		"ServiceInstanceProvisionUsingPUT",
+		strings.ToUpper("Put"),
+		"/v2/service_instances/{crn1}/{crn2}",
+		ServiceInstanceProvisionUsingPUT,
+	},
+
+	Route{
 		"ServiceInstanceUpdateUsingPATCH",
 		strings.ToUpper("Patch"),
 		"/v2/service_instances/{instance_id}",
