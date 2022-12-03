@@ -84,7 +84,7 @@ func ServiceInstanceProvisionUsingPUT(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	resp := make(map[string]string)
-	resp["dashboard_url"] = "http://www.ibm.com"
+	resp["dashboard_url"] = "https://abimedical-application-d6.vmr7h1rf0o4.us-east.codeengine.appdomain.cloud/"
 	resp["description"] = "Service is created"
 	resp["operation"] = "provision45"
 	log.Printf("Lets Go...")
