@@ -13,6 +13,10 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"fmt"
+	"io/ioutil"
+	"strings"
+	"crypto/tls"
 )
 
 func ServiceInstanceDeprovisionUsingDELETE(w http.ResponseWriter, r *http.Request) {
@@ -30,6 +34,52 @@ func ServiceInstanceLastOperationGetUsingGET(w http.ResponseWriter, r *http.Requ
 	w.WriteHeader(http.StatusOK)
 }
 
+func CreateTenant() {
+	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+	client := &http.Client{}
+	var data = strings.NewReader(`{
+	"name": "test123"
+}`)
+	req, err := http.NewRequest("POST", "https://abimedical-application-d6.vmr7h1rf0o4.us-east.codeengine.appdomain.cloud/api/create-tenant/", data)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("Create tenant")
+	req.Header.Set("Authorization", "Basic cnBvbGVwZWRkaTphZG1pbjEyMw==")
+	req.Header.Set("Content-Type", "application/json")
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+	bodyText, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("%s\n", bodyText)
+}
+
+func CreateAdminTenant() {
+	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+	fmt.Println("Create admin tenant")
+	client := &http.Client{}
+	req, err := http.NewRequest("POST", "https://abimedical-application-d6.vmr7h1rf0o4.us-east.codeengine.appdomain.cloud/clients/test123/api/v1/core/administrator/", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+	req.Header.Set("Content-Type", "application/json")
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+	bodyText, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("%s\n", bodyText)
+}
+
 func ServiceInstanceProvisionUsingPUT(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
@@ -42,6 +92,8 @@ func ServiceInstanceProvisionUsingPUT(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatalf("Error happened in JSON marshal. Err: %s", err)
 	}
+	CreateTenant()
+	CreateAdminTenant()
 	w.Write(jsonResp)
 
 }
