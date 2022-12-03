@@ -37,6 +37,7 @@ func ServiceInstanceProvisionUsingPUT(w http.ResponseWriter, r *http.Request) {
 	resp["dashboard_url"] = "http://www.ibm.com"
 	resp["description"] = "Service is created"
 	resp["operation"] = "provision45"
+	log.Printf("Lets Go...")
 	jsonResp, err := json.Marshal(resp)
 	if err != nil {
 		log.Fatalf("Error happened in JSON marshal. Err: %s", err)
