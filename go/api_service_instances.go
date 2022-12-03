@@ -38,7 +38,7 @@ func CreateTenant() {
 	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 	client := &http.Client{}
 	var data = strings.NewReader(`{
-	"name": "test123"
+	"name": "HackathonTenant"
 }`)
 	req, err := http.NewRequest("POST", "https://abimedical-application-d6.vmr7h1rf0o4.us-east.codeengine.appdomain.cloud/api/create-tenant/", data)
 	if err != nil {
@@ -63,7 +63,7 @@ func CreateAdminTenant() {
 	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 	fmt.Println("Create admin tenant")
 	client := &http.Client{}
-	req, err := http.NewRequest("POST", "https://abimedical-application-d6.vmr7h1rf0o4.us-east.codeengine.appdomain.cloud/clients/test123/api/v1/core/administrator/", nil)
+	req, err := http.NewRequest("POST", "https://abimedical-application-d6.vmr7h1rf0o4.us-east.codeengine.appdomain.cloud/clients/HackathonTenant/api/v1/core/administrator/", nil)
 	if err != nil {
 		log.Fatal(err)
 	}
